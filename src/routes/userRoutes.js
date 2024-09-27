@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../middlewares/authMiddleware");
+const authorizeRoles = require("../middlewares/roleMiddleware");
 
 // Admin can access...
 
-router.get("/admin", (req, res) => {
+router.get("/admin", verifyToken, authorizeRoles("admin"), (req, res) => {
   return res.status(200).json({
     message: "Welcome admin to your profile...",
   });
@@ -11,18 +13,28 @@ router.get("/admin", (req, res) => {
 
 // Both Admin and Manager can access...
 
-router.get("/manager", (req, res) => {
-  return res.status(200).json({
-    message: "Welcome manager to your profile...",
-  });
-});
+router.get(
+  "/manager",
+  verifyToken,
+  authorizeRoles("admin", "manager"),
+  (req, res) => {
+    return res.status(200).json({
+      message: "Welcome manager to your profile...",
+    });
+  }
+);
 
 // All Admin, Manager and, Users can access...
 
-router.get("/user", (req, res) => {
-  return res.status(200).json({
-    message: "Welcome user to your profile...",
-  });
-});
+router.get(
+  "/user",
+  verifyToken,
+  authorizeRoles("admin", "manager", "user"),
+  (req, res) => {
+    return res.status(200).json({
+      message: "Welcome user to your profile...",
+    });
+  }
+);
 
 module.exports = router;
