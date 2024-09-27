@@ -32,7 +32,7 @@ const login = async (req, res) => {
     const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) {
       return res.status(400).json({
-        message: `Username or Password not matched. Try again...`,
+        message: `Credentials not matched. Try again...`,
       });
     }
 
