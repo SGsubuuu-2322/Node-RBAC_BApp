@@ -17,9 +17,9 @@ const verifyToken = (req, res, next) => {
       //   console.log(req);
       const decodeUser = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decodeUser;
-      console.log(`Token verified with user: ${req.user}-------------`);
-      //   console.log(req);
-
+      console.log(
+        `Token verified with user: ${JSON.stringify(decodeUser)}-------------`
+      );
       next();
     } catch (err) {
       return res.status(400).json({

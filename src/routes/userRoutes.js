@@ -6,6 +6,7 @@ const authorizeRoles = require("../middlewares/roleMiddleware");
 // Admin can access...
 
 router.get("/admin", verifyToken, authorizeRoles("admin"), (req, res) => {
+  //   console.log(req.user);
   return res.status(200).json({
     message: "Welcome admin to your profile...",
   });
